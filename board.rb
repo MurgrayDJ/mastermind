@@ -1,18 +1,15 @@
-
-
 class Board
-    attr_accessor :board
-    
-    def initialize(shield)
-        @board = {
-            :shield => shield
-        }
+  attr_accessor :board
 
-        @guesses = 0
-    end
+  def initialize(shield)
+    @board = {
+      shield: shield
+    }
+
+    @guesses = 0
+  end
 end
 
-
-board = Board.new([:blue, :red, :green, :green])
+board = Board.new(%i[blue red green green])
 
 print board.board[:shield]
