@@ -1,7 +1,7 @@
 class Player
   attr_accessor :name, :type
 
-  def initialize(name="PC", type=:codemaker)
+  def initialize(name, type)
     @name = name
     @type = type
   end
