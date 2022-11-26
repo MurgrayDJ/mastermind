@@ -1,11 +1,14 @@
 class Board
   attr_accessor :board
-  attr_reader :board_colors
   @@board_colors = %w(blue green yellow red orange purple)
 
   def initialize(shield)
     @board = {shield: shield}
     @guesses = 0
+  end
+
+  def self.board_colors
+    @@board_colors
   end
   
   def self.print_colors
