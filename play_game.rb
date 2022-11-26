@@ -23,17 +23,19 @@ class PlayGame
   def get_shield_code
     puts "Codemaker, please enter your 4-part shield code using the following values:"
     Board.print_colors
+    shield_code = []
 
     4.times do |spot_num|
       prompt = "Spot #{spot_num + 1}: "
-      get_valid_data(prompt, nil, Board.board_colors)
+      shield_code << get_valid_data(prompt, nil, Board.board_colors)
     end
-
     puts "Shield code entered!"
+    shield_code
   end
 
   def create_board
     board = Board.new(get_shield_code)
+    # puts board.board[:shield]
   end
 
   def get_valid_data(prompt, response, valid_responses)
