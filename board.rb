@@ -9,14 +9,12 @@ class Board
   end
   
   def self.print_colors
+    puts "-------------------------------------------------"
+    print "|"
     @@board_colors.each do |color|
-      print "#{color} "
+      print " #{color.capitalize} |"
     end
-    puts ":"
-  end
-
-  def set_shield
-    
+    puts "\n-------------------------------------------------"
   end
 end
 
