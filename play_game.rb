@@ -6,6 +6,7 @@ class PlayGame
     @code_maker = create_player(1)
     @code_breaker = create_player(2)
     @board = create_board
+    play_round
   end
 
   def create_player(player_num)
@@ -44,6 +45,18 @@ class PlayGame
   def get_guess(guess_num)
     print "Codebreaker, make your guess: "
     code_entry
+  end
+
+  def play_round
+    puts "Codebreaker, make your guess: "
+    @board.guesses += 1
+    round_num = @board.guesses
+    @board.board["row#{round_num}".to_sym] = {
+      "feedback1" => [nil, nil],
+      "guess" => code_entry,
+      "feedback2" => [nil, nil]
+    }
+    @board.print_board
   end
 
   def get_valid_data(prompt, response, valid_responses)
