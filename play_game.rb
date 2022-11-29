@@ -27,7 +27,7 @@ class PlayGame
   def get_shield_code
     puts "Codemaker, please enter your 4-part shield code using the following values:"
     Board.print_colors
-    shield_code = code_entry(shield_code)
+    shield_code = code_entry
     puts "Shield code entered!"
     shield_code
   end
@@ -52,7 +52,7 @@ class PlayGame
       response = gets.chomp
     else
       valid_responses.each do |valid_response|
-        if response == valid_response
+        if response.downcase == valid_response.downcase
           return response
         elsif response.downcase == "exit"
           puts "See ya later!"
