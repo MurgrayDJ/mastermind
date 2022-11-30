@@ -29,6 +29,9 @@ class PlayGame
     puts "Codemaker, please enter your 4-part shield code using the following values:"
     Board.print_colors
     shield_code = code_entry
+    50.times do
+      puts "."
+    end
     puts "Shield code entered!"
     shield_code
   end
