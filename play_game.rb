@@ -26,13 +26,19 @@ class PlayGame
   end
 
   def get_shield_code
-    puts "Codemaker, please enter your 4-part shield code using the following values:"
-    Board.print_colors
-    shield_code = code_entry
-    50.times do
-      puts "."
+    shield_code = []
+    if @code_maker.name = 'Computer'
+      shield_code = @code_maker.generate_shield
+      puts "The computer has entered the code!\n\n"
+    else
+      puts "Codemaker, please enter your 4-part shield code using the following values:"
+      Board.print_colors
+      shield_code = code_entry
+      50.times do
+        puts "."
+      end
+      puts "Shield code entered!"
     end
-    puts "Shield code entered!"
     shield_code
   end
 
