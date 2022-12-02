@@ -56,7 +56,7 @@ class PlayGame
   def play_game
     until @board.guesses == 12 do
       play_round(@board.guesses)
-      get_feedback(@board.guesses)
+      get_key_pegs(@board.guesses)
       @board.guesses += 1
       puts "Here's the updated board: "
       @board.print_board
@@ -67,17 +67,29 @@ class PlayGame
     puts "Codebreaker, make your guess: "
     @board.board["row#{round_num}".to_sym] = {
       "guess" => code_entry,
-      "feedback" => [nil, nil, nil, nil]
+      "key_pegs" => []
     }
   end
 
-  def get_feedback(round_num)
+  def get_key_pegs(round_num)
     row_symbol = "row#{round_num}".to_sym
     current_guess = @board.board[row_symbol]["guess"]
     shield_code = @board.board[:shield]
-    current_guess.each_with_index do |spot_value, spot_num|
-      if spot_value == shield_code[spot_num]
-        @board.board[row_symbol]["feedback"][spot_num] = "black"
+    shield_check = [false, false, false, false]
+    guess_check = [false, false, false, false]
+    current_guess.each_with_index do |code_peg, spot_num|
+      if code_peg == shield_code[spot_num]
+        @board.board[row_symbol]["key_pegs"] << "Black"
+        shield_check[spot_num] = true
+        guess_check[spot_num] = true
+      else
+        shield_code.each_with_index do |shield_code_peg, index|
+          if code_peg == shield_code_peg && shield_check[index] == false && guess_check[spot_num] == false
+            @board.board[row_symbol]["key_pegs"] << "White"
+            shield_check[index] = true
+            guess_check[spot_num] = true
+          end
+        end 
       end
     end
   end

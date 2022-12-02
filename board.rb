@@ -29,7 +29,7 @@ class Board
         print "-----------------\n"
         print "|"
 
-        print "#{row_content["feedback"][0]}  #{row_content["feedback"][1]} || "
+        print "#{row_content["key_pegs"][0]}  #{row_content["key_pegs"][1]} || "
         
         row_content["guess"].each_with_index do |guess_value, spot|
             if spot == 0
@@ -41,14 +41,15 @@ class Board
 
         print "|| "
 
-        print "#{row_content["feedback"][2]}  #{row_content["feedback"][3]}"
+        print "#{row_content["key_pegs"][2]}  #{row_content["key_pegs"][3]}"
 
         print "|"
         print "\n----------------- "
         print "------------------------------------------------- "
-        print "-----------------\n\n"
+        print "-----------------\n"
       end
     end
+    print "\n"
   end
 end
 
