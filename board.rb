@@ -34,13 +34,7 @@ class Board
         
         print "||"
         
-        row_content["guess"].each_with_index do |code_peg, spot|
-            if spot == 0
-                print "#{code_peg.capitalize.center(11, " ")}"
-            else
-                print "|#{code_peg.capitalize.center(11, " ")}"
-            end
-        end
+        print_guess(row_content["guess"])
 
         print "||"
         
@@ -56,11 +50,23 @@ class Board
     print "\n"
   end
 
+  private
+  
   def print_keypeg_or_space(keypeg_spot)
     if keypeg_spot.nil?
       print " " * 8
     else
       print "#{keypeg_spot.center(8, " ")}"
+    end
+  end
+
+  def print_guess(guess)
+    guess.each_with_index do |code_peg, spot|
+      if spot == 0
+          print "#{code_peg.capitalize.center(11, " ")}"
+      else
+          print "|#{code_peg.capitalize.center(11, " ")}"
+      end
     end
   end
 end
