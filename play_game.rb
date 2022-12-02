@@ -6,7 +6,7 @@ class PlayGame
     @code_maker = create_player(1)
     @code_breaker = create_player(2)
     @board = create_board
-    play_round
+    play_game
   end
 
   def create_player(player_num)
@@ -53,21 +53,38 @@ class PlayGame
     code_array
   end
 
+  def play_game
+    until @board.guesses == 12 do
+      play_round(@board.guesses)
+      get_feedback(@board.guesses)
+      @board.guesses += 1
+      puts "Here's the updated board: "
+      @board.print_board
+    end
+  end
+  
+  def play_round(round_num)
+    puts "Codebreaker, make your guess: "
+    @board.board["row#{round_num}".to_sym] = {
+      "guess" => code_entry,
+      "feedback" => [nil, nil, nil, nil]
+    }
+  end
+
+  def get_feedback(round_num)
+    row_symbol = "row#{round_num}".to_sym
+    current_guess = @board.board[row_symbol]["guess"]
+    shield_code = @board.board[:shield]
+    current_guess.each_with_index do |spot_value, spot_num|
+      if spot_value == shield_code[spot_num]
+        @board.board[row_symbol]["feedback"][spot_num] = "black"
+      end
+    end
+  end
+
   def get_guess(guess_num)
     print "Codebreaker, make your guess: "
     code_entry
-  end
-  
-  def play_round
-    puts "Codebreaker, make your guess: "
-    @board.guesses += 1
-    round_num = @board.guesses
-    @board.board["row#{round_num}".to_sym] = {
-      "feedback1" => [nil, nil],
-      "guess" => code_entry,
-      "feedback2" => [nil, nil]
-    }
-    @board.print_board
   end
 
   def get_valid_data(prompt, response, valid_responses)

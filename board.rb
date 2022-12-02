@@ -5,7 +5,7 @@ class Board
 
   def initialize(shield)
     @board = {shield: shield}
-    @guesses = 0
+    @guesses = 1 
   end
 
   def self.board_colors
@@ -29,7 +29,7 @@ class Board
         print "-----------------\n"
         print "|"
 
-        print "#{row_content["feedback1"][0]}  #{row_content["feedback1"][1]} || "
+        print "#{row_content["feedback"][0]}  #{row_content["feedback"][1]} || "
         
         row_content["guess"].each_with_index do |guess_value, spot|
             if spot == 0
@@ -41,12 +41,12 @@ class Board
 
         print "|| "
 
-        print "#{row_content["feedback2"][0]}  #{row_content["feedback2"][1]}"
+        print "#{row_content["feedback"][2]}  #{row_content["feedback"][3]}"
 
         print "|"
         print "\n----------------- "
         print "------------------------------------------------- "
-        print "-----------------\n"
+        print "-----------------\n\n"
       end
     end
   end
