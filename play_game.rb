@@ -55,24 +55,31 @@ class PlayGame
 
   def play_game
     until @board.guesses == 12 do
-      play_round(@board.guesses)
-      get_key_pegs(@board.guesses)
-      @board.guesses += 1
+      row_symbol = "row#{@board.guesses}".to_sym
+      play_round(row_symbol)
+      get_key_pegs(row_symbol)
       puts "Here's the updated board: "
       @board.print_board
+      if @board.board[row_symbol]["key_pegs"].length == 4
+        if win?(row_symbol)
+          end_game
+          exit
+        end
+      end
+      @board.guesses += 1
     end
+    end_game
   end
   
-  def play_round(round_num)
-    puts "Codebreaker, make your guess: "
-    @board.board["row#{round_num}".to_sym] = {
+  def play_round(row_symbol)
+    puts "Codebreaker, please make guess #{@board.guesses}: "
+    @board.board[row_symbol] = {
       "guess" => code_entry,
       "key_pegs" => []
     }
   end
 
-  def get_key_pegs(round_num)
-    row_symbol = "row#{round_num}".to_sym
+  def get_key_pegs(row_symbol)
     current_guess = @board.board[row_symbol]["guess"]
     shield_code = @board.board[:shield]
     shield_check = [false, false, false, false]
@@ -115,6 +122,21 @@ class PlayGame
       response = nil
     end
     response = get_valid_data(prompt, response, valid_responses)  
+  end
+
+  def win?(row_symbol)
+    key_pegs = @board.board[row_symbol]["key_pegs"]
+    key_pegs.all? {|key_peg| key_peg == "Black"}
+  end
+
+  def end_game
+    if @board.guesses == 12
+      puts "Game over! All the rows have been filled and the code is not broken!"
+      puts "Great code #{@code_maker.name}!"
+    else
+      puts "Game over! The codebreaker has broken the code!"
+      puts "Great work #{@code_breaker.name}!"
+    end
   end
 end
 
