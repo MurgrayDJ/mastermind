@@ -89,14 +89,13 @@ class PlayGame
         @board.board[row_symbol]["key_pegs"] << "Black"
         shield_check[spot_num] = true
         guess_check[spot_num] = true
-      else
-        shield_code.each_with_index do |shield_code_peg, index|
-          if code_peg == shield_code_peg && shield_check[index] == false && guess_check[spot_num] == false
-            @board.board[row_symbol]["key_pegs"] << "White"
-            shield_check[index] = true
-            guess_check[spot_num] = true
-          end
-        end 
+      end
+      shield_code.each_with_index do |shield_code_peg, index|
+        if code_peg == shield_code_peg && shield_check[index] == false && guess_check[spot_num] == false
+          @board.board[row_symbol]["key_pegs"] << "White"
+          shield_check[index] = true
+          guess_check[spot_num] = true
+        end
       end
     end
   end
