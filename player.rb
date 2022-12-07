@@ -14,7 +14,6 @@ class Player
     4.times do 
       shield_code << color_options.sample
     end
-    puts shield_code
     shield_code
   end
 end

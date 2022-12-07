@@ -21,37 +21,52 @@ class Board
     puts "\n-------------------------------------------------"
   end
 
+  def print_shield
+    print_line(:top_line)
+    print_row_content([nil,nil,nil,nil], @board[:shield])
+    print_line(:bottom_line)
+  end
+
   def print_board
     board.each do |row_name, row_content|
       unless row_name == :shield
-        print "-----------------"
-        print "  -----------------------------------------------  "
-        print "-----------------\n"
-        print "|"
-
-        print_keypeg_or_space(row_content["key_pegs"][0])
-        print_keypeg_or_space(row_content["key_pegs"][1])
-        
-        print "||"
-        
-        print_guess(row_content["guess"])
-
-        print "||"
-        
-        print_keypeg_or_space(row_content["key_pegs"][2])
-        print_keypeg_or_space(row_content["key_pegs"][3])
-
-        print "|"
-        print "\n-----------------"
-        print "  -----------------------------------------------  "
-        print "-----------------\n"
+        print_line(:top_line)
+        print_row_content(row_content["key_pegs"], row_content["guess"])
+        print_line(:bottom_line)
       end
     end
     print "\n"
   end
 
   private
-  
+  def print_row_content(key_peg_array, code_array)
+    print_keypeg_or_space(key_peg_array[0])
+    print_keypeg_or_space(key_peg_array[1])
+    
+    print "||"
+    
+    print_code(code_array)
+
+    print "||"
+    
+    print_keypeg_or_space(key_peg_array[2])
+    print_keypeg_or_space(key_peg_array[3])
+  end
+
+  def print_line(current_line)
+    if current_line == :top_line
+      print "-----------------"
+      print "  -----------------------------------------------  "
+      print "-----------------\n"
+      print "|"
+    else
+      print "|"
+      print "\n-----------------"
+      print "  -----------------------------------------------  "
+      print "-----------------\n"
+    end
+  end
+
   def print_keypeg_or_space(keypeg_spot)
     if keypeg_spot.nil?
       print " " * 8
@@ -60,8 +75,8 @@ class Board
     end
   end
 
-  def print_guess(guess)
-    guess.each_with_index do |code_peg, spot|
+  def print_code(code)
+    code.each_with_index do |code_peg, spot|
       if spot == 0
           print "#{code_peg.capitalize.center(11, " ")}"
       else
