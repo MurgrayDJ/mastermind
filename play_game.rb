@@ -3,6 +3,8 @@ require './board'
 
 class PlayGame
   def initialize
+    puts "---------- Welcome to Mastermind! ----------"
+    print_rules
     @code_maker = create_player(1)
     @code_breaker = create_player(2)
     @board = create_board
@@ -51,6 +53,22 @@ class PlayGame
       code_array << get_valid_data(prompt, nil, Board.board_colors)
     end
     code_array
+  end
+
+  def print_rules
+    puts "Please visit the Mastermind Wikipedia page for general rules on how to play."
+    puts "For this specific game, here is what you need to know about how to play:"
+    puts " - Codes can contain multiple of the same color peg."
+    puts " - No blank pegs."
+    puts " - Black pegs for correct code pegs in the right position."
+    puts " - White pegs for correct code pegs in the wrong position."
+    puts " - You must put all the right code pegs in the right positions to win. "
+    puts "And here is some general stuff to keep in mind: "
+    puts " - Code peg colors must be spelled correctly to be entered."
+    puts " - Type \"exit\" at any time to exit the game."
+    puts " - Type \"help\" at any time to print this message again."
+    puts "Please review the rules above, and type \"Ready!\" when you're ready to play."
+    get_valid_data("Ready?: ", nil, ["ready!"])
   end
 
   def play_game
