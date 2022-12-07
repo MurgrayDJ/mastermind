@@ -31,7 +31,9 @@ class PlayGame
 
     if @code_maker.name = 'Computer'
       shield_code = @code_maker.generate_shield
-      puts "The computer has entered the code!\n\n"
+      puts "\n\n-------- Generating code... ---------"
+      sleep 2
+      puts "The computer has generated the code!\n\n"
     else
       puts "Codemaker, please enter your 4-part shield code:"
       shield_code = code_entry
