@@ -3,8 +3,7 @@ require './board'
 
 class PlayGame
   def initialize
-    puts "---------- Welcome to Mastermind! ----------"
-    print_rules
+    welcome_players
     @code_maker = create_player(1)
     @code_breaker = create_player(2)
     @board = create_board
@@ -55,6 +54,12 @@ class PlayGame
     code_array
   end
 
+  def welcome_players
+    puts "---------- Welcome to Mastermind! ----------"
+    print_rules
+    get_valid_data("Ready?: ", nil, ["ready!"])
+  end
+
   def print_rules
     puts "Please visit the Mastermind Wikipedia page for general rules on how to play."
     puts "For this specific game, here is what you need to know about how to play:"
@@ -68,7 +73,6 @@ class PlayGame
     puts " - Type \"exit\" at any time to exit the game."
     puts " - Type \"help\" at any time to print this message again."
     puts "Please review the rules above, and type \"Ready!\" when you're ready to play."
-    get_valid_data("Ready?: ", nil, ["ready!"])
   end
 
   def play_game
@@ -134,6 +138,9 @@ class PlayGame
         elsif response.downcase == "exit"
           puts "See ya later!"
           exit!
+        elsif response.downcase == "help"
+          print_rules
+          break
         end
       end
       response = nil
