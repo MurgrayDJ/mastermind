@@ -95,7 +95,8 @@ class PlayGame
   end
   
   def play_round(row_symbol)
-    puts "Codebreaker, please make guess #{@board.guesses}: "
+    puts "Codebreaker, please make guess number #{@board.guesses}: "
+    Board.print_colors
     @board.board[row_symbol] = {
       "guess" => code_entry,
       "key_pegs" => []
@@ -157,7 +158,9 @@ class PlayGame
   def end_game
     if @board.guesses == 12
       puts "Game over! All the rows have been filled and the code is not broken!"
-      puts "Great code #{@code_maker.name}!"
+      puts "Great work #{@code_maker.name}!"
+      puts "Here was their code: "
+      @board.print_shield
     else
       puts "Game over! The codebreaker has broken the code!"
       puts "Great work #{@code_breaker.name}!"
