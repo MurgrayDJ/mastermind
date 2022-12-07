@@ -3,23 +3,31 @@ require './board'
 
 class PlayGame
   def initialize
-    welcome_players
-    @code_maker = create_player(1)
-    @code_breaker = create_player(2)
+    welcome_player
+    decide_play_style
+    @code_maker 
+    @code_breaker 
     @board = create_board
     play_game
   end
 
-  def create_player(player_num)
-    if player_num == 1
-      player_name = "Computer"
-      player_type = :code_maker
+  def decide_play_style
+    print "\n\nEnter player name: "
+    player_name = gets.chomp
+    puts "#{player_name.capitalize}, do you want to be the code maker or code breaker?"
+    prompt = "Enter 1 for code maker, enter 2 for code breaker: "
+    player_num = get_valid_data(prompt, nil, ["1", "2"])
+    create_players(player_name, player_num)
+  end
+
+  def create_players(player_name, player_num)
+    if player_num == "1"
+      @code_maker = Player.new(player_name, :human)
+      @code_breaker = Player.new("Computer", :computer)
     else
-      print "\n\nEnter player name: "
-      player_name = gets.chomp
-      player_type = :code_breaker
+      @code_maker = Player.new("Computer", :computer)
+      @code_breaker = Player.new(player_name, :human)
     end
-    Player.new(player_name, player_type)
   end
 
   def create_board
@@ -29,7 +37,7 @@ class PlayGame
   def get_shield_code
     shield_code = []
 
-    if @code_maker.name = 'Computer'
+    if @code_maker.type == :computer
       shield_code = @code_maker.generate_shield
       puts "\n\n-------- Generating code... ---------"
       sleep 2
@@ -54,7 +62,7 @@ class PlayGame
     code_array
   end
 
-  def welcome_players
+  def welcome_player
     puts "---------- Welcome to Mastermind! ----------"
     print_rules
     puts "Please review the rules above, and type \"Ready!\" when you're ready to play."
