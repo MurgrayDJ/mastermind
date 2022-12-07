@@ -12,10 +12,10 @@ class PlayGame
 
   def create_player(player_num)
     if player_num == 1
-      player_name = 'Computer'
+      player_name = "Computer"
       player_type = :code_maker
     else
-      print 'Enter player name: '
+      print "\n\nEnter player name: "
       player_name = gets.chomp
       player_type = :code_breaker
     end
@@ -28,8 +28,6 @@ class PlayGame
 
   def get_shield_code
     shield_code = []
-    puts "Here are the possible code values for the game:"
-    Board.print_colors
 
     if @code_maker.name = 'Computer'
       shield_code = @code_maker.generate_shield
@@ -57,6 +55,7 @@ class PlayGame
   def welcome_players
     puts "---------- Welcome to Mastermind! ----------"
     print_rules
+    puts "Please review the rules above, and type \"Ready!\" when you're ready to play."
     get_valid_data("Ready?: ", nil, ["ready!"])
   end
 
@@ -72,7 +71,9 @@ class PlayGame
     puts " - Code peg colors must be spelled correctly to be entered."
     puts " - Type \"exit\" at any time to exit the game."
     puts " - Type \"help\" at any time to print this message again."
-    puts "Please review the rules above, and type \"Ready!\" when you're ready to play."
+    puts "Finally, here are the possible code colors for the game:"
+    Board.print_colors
+    print "\n\n"
   end
 
   def play_game
