@@ -131,20 +131,24 @@ class PlayGame
         guess << Board.board_colors.sample
       end
     else
-      @board.board[prev_row_symbol]["key_pegs"].each_with_index do |key_peg, peg_index|
-        peg_of_interest = @board.board[prev_row_symbol]["guess"][peg_index]
-        if key_peg == "Black"
-          guess << peg_of_interest
-        elsif key_peg == "White"
-          white_pegs << peg_of_interest
-          guess << nil
-        else
-          guess << nil
-        end
-      end
-        guess = replace_wrong_pegs(guess, white_pegs)
+      check_keypeg_color(prev_row_symbol, guess, white_pegs)
+      guess = replace_wrong_pegs(guess, white_pegs)
     end
     guess
+  end
+
+  def check_keypeg_color(prev_row_symbol, guess, white_pegs)
+    @board.board[prev_row_symbol]["key_pegs"].each_with_index do |key_peg, peg_index|
+      peg_of_interest = @board.board[prev_row_symbol]["guess"][peg_index]
+      if key_peg == "Black"
+        guess << peg_of_interest
+      elsif key_peg == "White"
+        white_pegs << peg_of_interest
+        guess << nil
+      else
+        guess << nil
+      end
+    end
   end
 
   def replace_wrong_pegs(guess, white_pegs)
