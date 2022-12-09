@@ -1,6 +1,8 @@
 # Mastermind
 A terminal game that simulates the game Master Mind
 
+![Screenshot of player breaking a computer generated code](/images/codebreaker_screenshot.png)
+
 ## Features
   - User can play as code breaker or code maker
   - Computer is the opposite player (code breaker or maker)
