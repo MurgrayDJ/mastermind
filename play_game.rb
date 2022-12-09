@@ -115,7 +115,7 @@ class PlayGame
       puts "The computer will now try to make it's guess..."
       sleep 2
       @board.board[row_symbol]["guess"] = generate_guess(row_symbol)
-      @board.print_board
+      @board.print_row(row_symbol)
       puts "Reminder of your hidden code: "
       @board.print_shield
       input_feedback(row_symbol)

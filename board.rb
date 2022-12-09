@@ -28,14 +28,18 @@ class Board
   end
 
   def print_board
-    board.each do |row_name, row_content|
-      unless row_name == :shield
-        print_line(:top_line)
-        print_row_content(row_content["key_pegs"], row_content["guess"])
-        print_line(:bottom_line)
+    board.each do |row_symbol, row_content|
+      unless row_symbol == :shield
+        print_row(row_symbol)
       end
     end
     print "\n"
+  end
+
+  def print_row(row_symbol)
+    print_line(:top_line)
+    print_row_content(board[row_symbol]["key_pegs"], board[row_symbol]["guess"])
+    print_line(:bottom_line)
   end
 
   private
