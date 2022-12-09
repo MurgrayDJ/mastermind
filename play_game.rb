@@ -107,19 +107,27 @@ class PlayGame
       "key_pegs" => []
     }
     if @code_breaker.type == :human
-      puts "Codebreaker, please make guess number #{@board.guesses}: "
-      Board.print_colors
-      @board.board[row_symbol]["guess"] = code_entry
-      get_key_pegs(row_symbol)
+      have_human_guess(row_symbol)
     else
-      puts "The computer will now try to make it's guess..."
-      sleep 2
-      @board.board[row_symbol]["guess"] = generate_guess(row_symbol)
-      @board.print_row(row_symbol)
-      puts "Reminder of your hidden code: "
-      @board.print_shield
-      input_feedback(row_symbol)
+      have_computer_guess(row_symbol)
     end
+  end
+
+  def have_human_guess(row_symbol)
+    puts "Codebreaker, please make guess number #{@board.guesses}: "
+    Board.print_colors
+    @board.board[row_symbol]["guess"] = code_entry
+    get_key_pegs(row_symbol)
+  end
+
+  def have_computer_guess(row_symbol)
+    puts "The computer will now try to make it's guess..."
+    sleep 2
+    @board.board[row_symbol]["guess"] = generate_guess(row_symbol)
+    @board.print_row(row_symbol)
+    puts "Reminder of your hidden code: "
+    @board.print_shield
+    input_feedback(row_symbol)
   end
 
   def generate_guess(row_symbol)
