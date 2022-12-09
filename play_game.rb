@@ -45,9 +45,6 @@ class PlayGame
     else
       puts "Codemaker, please enter your 4-part shield code:"
       shield_code = code_entry
-      50.times do
-        puts "."
-      end
       puts "Shield code entered!"
     end
     shield_code
@@ -76,7 +73,8 @@ class PlayGame
     puts " - No blank pegs."
     puts " - Black pegs for correct code pegs in the right position."
     puts " - White pegs for correct code pegs in the wrong position."
-    puts " - You must put all the right code pegs in the right positions to win. "
+    puts " - The codebreaker must put the right code pegs in the right positions to win. "
+    puts " - The key pegs don't have to match the position of the code peg they're referencing."
     puts "And here is some general stuff to keep in mind: "
     puts " - Code peg colors must be spelled correctly to be entered."
     puts " - Type \"exit\" at any time to exit the game."
@@ -87,10 +85,9 @@ class PlayGame
   end
 
   def play_game
-    until @board.guesses == 12 do
+    until @board.guesses == 13 do
       row_symbol = "row#{@board.guesses}".to_sym
       play_round(row_symbol)
-      get_key_pegs(row_symbol)
       puts "Here's the updated board: "
       @board.print_board
       if @board.board[row_symbol]["key_pegs"].length == 4
@@ -105,12 +102,72 @@ class PlayGame
   end
   
   def play_round(row_symbol)
-    puts "Codebreaker, please make guess number #{@board.guesses}: "
-    Board.print_colors
     @board.board[row_symbol] = {
-      "guess" => code_entry,
+      "guess" => [],
       "key_pegs" => []
     }
+    if @code_breaker.type == :human
+      puts "Codebreaker, please make guess number #{@board.guesses}: "
+      Board.print_colors
+      @board.board[row_symbol]["guess"] = code_entry
+      get_key_pegs(row_symbol)
+    else
+      puts "The computer will now try to make it's guess..."
+      sleep 2
+      @board.board[row_symbol]["guess"] = generate_guess(row_symbol)
+      @board.print_board
+      puts "Reminder of your hidden code: "
+      @board.print_shield
+      input_feedback(row_symbol)
+    end
+  end
+
+  def generate_guess(row_symbol)
+    guess = []
+    white_pegs = []
+    prev_row_symbol = "row#{@board.guesses-1}".to_sym
+    if row_symbol == :row1 || @board.board[prev_row_symbol]["key_pegs"].empty?
+      4.times do 
+        guess << Board.board_colors.sample
+      end
+    else
+       p @board.board[prev_row_symbol]["key_pegs"]
+      @board.board[prev_row_symbol]["key_pegs"].each_with_index do |key_peg, peg_index|
+        peg_of_interest = @board.board[prev_row_symbol]["guess"][peg_index]
+        if key_peg == "Black"
+          guess << peg_of_interest
+        elsif key_peg == "White"
+          white_pegs << peg_of_interest
+          guess << nil
+        else
+          guess << nil
+        end
+      end
+      num_spots_left = guess.count(nil)
+      if num_spots_left >= 1
+        while white_pegs.length < num_spots_left
+          white_pegs << Board.board_colors.sample
+        end
+        code_pegs = white_pegs.shuffle
+        guess.each_with_index do |key_peg, peg_index|
+          if key_peg == nil
+            guess[peg_index] = code_pegs.pop
+          end
+        end
+      end
+    end
+    guess
+  end
+
+  def input_feedback(row_symbol)
+    puts "Code maker, please put enter your feedback on the computer's guess."
+    puts "White for correct color, wrong position. Black for correct color, right position."
+    puts "No key peg means the color is not in the code. Just press enter to represent no peg."
+    4.times do |key_peg_num|
+      key_peg = get_valid_data("  Key peg #{key_peg_num}: ", nil, ["White", "Black", ""])
+      @board.board[row_symbol]["key_pegs"] << key_peg.capitalize
+    end
+    p @board.board[row_symbol]["key_pegs"]
   end
 
   def get_key_pegs(row_symbol)
@@ -139,7 +196,7 @@ class PlayGame
     code_entry
   end
 
-  def get_valid_data(prompt, response, valid_responses)
+  def get_valid_data(prompt, response, valid_responses) 
     if response.nil?
       print prompt
       response = gets.chomp
@@ -166,7 +223,7 @@ class PlayGame
   end
 
   def end_game
-    if @board.guesses == 12
+    if @board.guesses == 13
       puts "Game over! All the rows have been filled and the code is not broken!"
       puts "Great work #{@code_maker.name}!"
       puts "Here was their code: "
