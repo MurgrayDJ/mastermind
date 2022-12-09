@@ -28,3 +28,11 @@ A terminal game that simulates the game Master Mind
   | Blue | Green | Yellow | Red | Orange | Purple |
   -------------------------------------------------
   ```
+## How I would improve this program
+  - Ask the user if they would like to play again
+  - Set up ability to play multiple games, and keep track of each players points
+  - Allow 2 players instead of just one and the computer
+  - Set up some customization options for the game, such as:
+    - Choosing the number of guesses the codebreaker can make
+    - Choosing whether blanks or duplicates can be allowed in the hidden code
+    - Letting the player choose the possible names/colors for the pegs
