@@ -131,7 +131,6 @@ class PlayGame
         guess << Board.board_colors.sample
       end
     else
-       p @board.board[prev_row_symbol]["key_pegs"]
       @board.board[prev_row_symbol]["key_pegs"].each_with_index do |key_peg, peg_index|
         peg_of_interest = @board.board[prev_row_symbol]["guess"][peg_index]
         if key_peg == "Black"
@@ -143,16 +142,21 @@ class PlayGame
           guess << nil
         end
       end
-      num_spots_left = guess.count(nil)
-      if num_spots_left >= 1
-        while white_pegs.length < num_spots_left
-          white_pegs << Board.board_colors.sample
-        end
-        code_pegs = white_pegs.shuffle
-        guess.each_with_index do |key_peg, peg_index|
-          if key_peg == nil
-            guess[peg_index] = code_pegs.pop
-          end
+        guess = replace_wrong_pegs(guess, white_pegs)
+    end
+    guess
+  end
+
+  def replace_wrong_pegs(guess, white_pegs)
+    num_spots_left = guess.count(nil)
+    if num_spots_left >= 1
+      while white_pegs.length < num_spots_left
+        white_pegs << Board.board_colors.sample
+      end
+      code_pegs = white_pegs.shuffle
+      guess.each_with_index do |key_peg, peg_index|
+        if key_peg == nil
+          guess[peg_index] = code_pegs.pop
         end
       end
     end
@@ -167,7 +171,6 @@ class PlayGame
       key_peg = get_valid_data("  Key peg #{key_peg_num}: ", nil, ["White", "Black", ""])
       @board.board[row_symbol]["key_pegs"] << key_peg.capitalize
     end
-    p @board.board[row_symbol]["key_pegs"]
   end
 
   def get_key_pegs(row_symbol)
